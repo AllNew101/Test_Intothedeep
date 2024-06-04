@@ -7,8 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "backup2")
 @Disabled
+@Autonomous(name = "backup2")
+
 public class backup2 extends LinearOpMode {
 
     private DcMotor MotorA;
