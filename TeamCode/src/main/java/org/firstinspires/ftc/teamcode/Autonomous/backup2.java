@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.checkerframework.checker.units.qual.Speed;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -17,14 +18,12 @@ import java.util.List;
 public class backup2 extends LinearOpMode {
     private static final boolean USE_WEBCAM = true;
     private AprilTagProcessor aprilTag;
-    private VisionPortal visionPortal;
 
     private DcMotor MotorA;
     private DcMotor MotorB;
     private DcMotor MotorC;
     private DcMotor MotorD;
     private DcMotor MotorF;
-
     double Turn_odo;
     double Delta_Turn_odo;
     double D_odo;
@@ -33,6 +32,7 @@ public class backup2 extends LinearOpMode {
     double B_odo;
     double C_odo;
     double last_turn = 0;
+
 
 
     /**
@@ -69,28 +69,11 @@ public class backup2 extends LinearOpMode {
             D_odo = 0;
             Turn_odo = 0;
             // Put run blocks here.
-
-
-            MotorF.setPower(1);
+            MotorF.setPower(0.8);
             sleep(1000);
-            move2(0.7, 0.01, 0, 0.25,0.2, 0.01,0.3, 0, 25000, 0, 1);
-            move2(0.7, 0.01, 0, 0.25,0.2, 0.01,0.3, 5000, 25000, 0,0);
-            move2(0.7, 0.01, 0,0.25,0.2, 0.01,0.3, 0, 25000, 0,0);
-            move2(0.5, 0.01, 0, 0.25,0.2, 0.01,0.3, -600, 0, 0, 1);
-            MotorF.setPower(1);
-            sleep(1000);
-            move2(0.7, 0.01, 0, 0.25,0.2, 0.01,0.3, 0, 25000, 0, 1);
-            move2(0.7, 0.01, 0, 0.25,0.2, 0.01,0.3, 5000, 25000, 0,0);
-            move2(0.7, 0.01, 0,0.25,0.2, 0.01,0.3, 0, 25000, 0,0);
-            move2(0.5, 0.01, 0, 0.25,0.2, 0.01,0.3, -800, 0, 0, 1);
-            MotorF.setPower(1);
-            sleep(1000);
-            move2(0.7, 0.01, 0, 0.25,0.2, 0.01,0.3, 0, 25000, 0, 1);
-            move2(0.7, 0.01, 0, 0.25,0.2, 0.01,0.3, 5000, 25000, 0,0);
-
-            visionPortal.close();
-
-
+            move2(0.8,0.01,0,0.25,0.2, 0.01, 0.3 ,-10000, 18000, 0, 0);
+            move2(0.8,0.01,0,0.25,0.2, 0.01, 0.3 ,10000, 18000, 0, 0);
+            move2(0.6,0.01,0,0.25,0.2, 0.01, 0.3 ,0, 0, 0, 0);
 
 
 
@@ -127,7 +110,7 @@ public class backup2 extends LinearOpMode {
         MotorC.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         MotorD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        x_positions = x_positions * -1;
+        y_positions = y_positions * -1;
         lastTime = 0;
         previous_odoturn = 0;
         myElapsedTime = new ElapsedTime();
@@ -135,8 +118,8 @@ public class backup2 extends LinearOpMode {
         error_sum_XY = 0;
         errorRate_XY = 0;
         myElapsedTime.reset();
-        slowY = y_positions / 10;
-        slowX = x_positions / 10;
+        slowY = y_positions / 10.0;
+        slowX = x_positions / 10.0;
         while (myElapsedTime.seconds() < 30) {
             telemetry.addData("x", x_odo);
             telemetry.addData("y", y_odo);
@@ -148,7 +131,7 @@ public class backup2 extends LinearOpMode {
             telemetry.addData("cos_Turn", Math.cos((Turn_odo / 180.0 * Math.PI)));
             telemetry.addData("Delta_Turn",Delta_Turn_odo);
             telemetry.addData("Degree", degree);
-
+            telemetry.update();
 
 
 
@@ -156,6 +139,7 @@ public class backup2 extends LinearOpMode {
             Delta_Turn_odo = Turn_odo - (int) last_turn;//((-MotorB.getCurrentPosition() - B_odo) - (-MotorC.getCurrentPosition() - C_odo)) / 54;
             forw = ((-MotorB.getCurrentPosition() - B_odo) + (-MotorC.getCurrentPosition() - C_odo)) / 2.0;
             str = ((-MotorD.getCurrentPosition() - D_odo) - (33.0 * (Delta_Turn_odo)));
+
             x_odo += (forw * Math.cos(Turn_odo / 180.0 * Math.PI)) + ((str * Math.sin(Turn_odo / 180.0 * Math.PI)));
             y_odo += ((str * Math.cos(Turn_odo / 180.0 * Math.PI))) - (forw * Math.sin(Turn_odo / 180.0 * Math.PI));
 
@@ -176,36 +160,28 @@ public class backup2 extends LinearOpMode {
 //          degree = (Math.atan2(x_degree,y_degree) - Math.PI/4.0);
             //Math.abs(Math.sqrt(Math.pow(y_positions - y_odo,2) + Math.pow(x_positions - x_odo,2))) >= 200
             degree = (degree - Math.PI/4.0);
+            if ( intake == 1 ) {
+                MotorF.setPower(1);
+            }
             if ((y_positions - y_odo >= 200 && Math.abs(y_positions - y_odo) <= slowY)|| (y_positions - y_odo <= -200 && Math.abs(y_positions - y_odo) <= slowY) || (x_positions - x_odo >= 200 && Math.abs(x_positions - x_odo) <= slowX) || (x_positions - x_odo <= -200 && Math.abs(x_positions - x_odo) <= slowX )|| Math.abs(Turn - Turn_odo) >= 3) {
-                error_XY = Math.sqrt(Math.pow(y_positions, 2) + Math.pow(x_positions, 2)) - Math.sqrt(Math.pow(y_odo, 2) + Math.pow(x_odo, 2));
-                errorRate_XY = ((error_XY - previous_odoXY) / dt);
-
-                if (Math.abs(error_XY) <= 100) {
-                    error_sum_XY += error_XY * dt;
-                }
-                pidXY = (error_XY * kp_XY) + (errorRate_XY * kd_XY) + (error_sum_XY * ki_XY);
 
                 MotorA.setPower(Math.min(Math.max((Math.sin(degree) * 0.3 + (movement)) , -0.3), 0.3) );
                 MotorB.setPower(Math.min(Math.max((Math.cos(degree) * 0.3 - (movement)) , -0.3), 0.3) );
                 MotorC.setPower(Math.min(Math.max((Math.cos(degree) * 0.3 + (movement)) , -0.3), 0.3) );
                 MotorD.setPower(Math.min(Math.max((Math.sin(degree) * 0.3 - (movement)) , -0.3), 0.3) );
-                if(intake == 1 ) {
-                    MotorF.setPower(1);
-                }
+
 
 
                 telemetry.addData("Turn done?",Math.abs(Turn - Turn_odo) < 3);
                 telemetry.addData("Position done?",Math.abs(Math.sqrt(Math.pow(y_positions - y_odo,2) + Math.pow(x_positions - x_odo,2))) < 100);
                 telemetry.update();
             }
+
             else if (y_positions - y_odo >= 200 || y_positions - y_odo <= -200 || x_positions - x_odo >= 200 || x_positions - x_odo <= -200 || Math.abs(Turn - Turn_odo) >= 3) {
                 MotorA.setPower(Math.min(Math.max((Math.sin(degree) * Speed + (movement)) , -Speed), Speed) );
                 MotorB.setPower(Math.min(Math.max((Math.cos(degree) * Speed - (movement)) , -Speed), Speed) );
                 MotorC.setPower(Math.min(Math.max((Math.cos(degree) * Speed + (movement)) , -Speed), Speed) );
                 MotorD.setPower(Math.min(Math.max((Math.sin(degree) * Speed - (movement)) , -Speed), Speed) );
-                if(intake == 1 ) {
-                    MotorF.setPower(1);
-                }
             }
             else {
                 MotorA.setPower(0);
@@ -240,13 +216,13 @@ public class backup2 extends LinearOpMode {
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
         // Create the vision portal the easy way.
-        if (USE_WEBCAM) {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                    hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
-        } else {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                    BuiltinCameraDirection.BACK, aprilTag);
-        }
+        //if (USE_WEBCAM) {
+            //visionPortal = VisionPortal.easyCreateWithDefaults(
+                    //hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+        //} else {
+            //visionPortal = VisionPortal.easyCreateWithDefaults(
+                    //BuiltinCameraDirection.BACK, aprilTag);
+        //}
 
     }
 
