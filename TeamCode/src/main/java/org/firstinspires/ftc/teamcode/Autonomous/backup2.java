@@ -46,9 +46,6 @@ public class backup2 extends LinearOpMode {
         MotorD = hardwareMap.get(DcMotor.class, "MotorD");
         MotorF = hardwareMap.get(DcMotor.class, "MotorF");
         initAprilTag();
-        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch Play to start OpMode");
-        telemetry.update();
         // Put initialization blocks here.
         waitForStart();
         MotorA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -69,12 +66,13 @@ public class backup2 extends LinearOpMode {
             D_odo = 0;
             Turn_odo = 0;
             // Put run blocks here.
-            MotorF.setPower(0.8);
-            sleep(1000);
-            move2(0.8,0.01,0,0.25,0.2, 0.01, 0.3 ,-10000, 18000, 0, 0);
-            move2(0.8,0.01,0,0.25,0.2, 0.01, 0.3 ,10000, 18000, 0, 0);
-            move2(0.6,0.01,0,0.25,0.2, 0.01, 0.3 ,0, 0, 0, 0);
-
+//            MotorF.setPower(0.8);
+//            sleep(1000);
+            move2(0.6,0.01,0,0.25,0.2, 0.01, 0.3 ,0, 18000, 0, 0);
+            move2(0.6,0.01,0,0.25,0.2, 0.01, 0.3 ,10000, 18000, 30, 0);
+            move2(0.55,0.01,0,0.25,0.2, 0.01, 0.3 ,0, 0, 100, 0);
+            move2(0.55,0.04,0,0.25,0.2, 0.01, 0.3 ,0, 0, 100, 0);
+            sleep(5000);
 
 
 
@@ -118,8 +116,8 @@ public class backup2 extends LinearOpMode {
         error_sum_XY = 0;
         errorRate_XY = 0;
         myElapsedTime.reset();
-        slowY = y_positions / 10.0;
-        slowX = x_positions / 10.0;
+        slowY = y_positions / 5.0;
+        slowX = x_positions / 5.0;
         while (myElapsedTime.seconds() < 30) {
             telemetry.addData("x", x_odo);
             telemetry.addData("y", y_odo);
@@ -150,11 +148,11 @@ public class backup2 extends LinearOpMode {
             error_turn = Turn - Turn_odo;
             errorRate = (error_turn - previous_odoturn) / dt;
             dt = myElapsedTime.milliseconds() - lastTime;
-            error_sum += error_turn * dt;
+//            error_sum += error_turn * dt;
             movement = (error_turn * kp_Turn) + (errorRate * kd_Turn) + (error_sum * ki_Turn);
             degree = Math.atan2(x_positions - x_odo, y_positions - y_odo)  - (Turn_odo / 180.0 * Math.PI) ;
-            x_degree = ((x_positions - x_odo) * Math.cos(Turn_odo)) - ((y_positions - y_odo) * Math.sin(Turn_odo));
-            y_degree = ((y_positions - y_odo) * Math.cos(Turn_odo) + (x_positions - x_odo) * Math.sin(Turn_odo));
+//            x_degree = ((x_positions - x_odo) * Math.cos(Turn_odo)) - ((y_positions - y_odo) * Math.sin(Turn_odo));
+//            y_degree = ((y_positions - y_odo) * Math.cos(Turn_odo) + (x_positions - x_odo) * Math.sin(Turn_odo));
 
             //y_positions - y_odo >= 100 || y_positions - y_odo <= -100 || x_positions - x_odo >= 100 || x_positions - x_odo <= -100
 //          degree = (Math.atan2(x_degree,y_degree) - Math.PI/4.0);
@@ -163,26 +161,25 @@ public class backup2 extends LinearOpMode {
             if ( intake == 1 ) {
                 MotorF.setPower(1);
             }
-            if ((y_positions - y_odo >= 200 && Math.abs(y_positions - y_odo) <= slowY)|| (y_positions - y_odo <= -200 && Math.abs(y_positions - y_odo) <= slowY) || (x_positions - x_odo >= 200 && Math.abs(x_positions - x_odo) <= slowX) || (x_positions - x_odo <= -200 && Math.abs(x_positions - x_odo) <= slowX )|| Math.abs(Turn - Turn_odo) >= 3) {
-
-                MotorA.setPower(Math.min(Math.max((Math.sin(degree) * 0.3 + (movement)) , -0.3), 0.3) );
-                MotorB.setPower(Math.min(Math.max((Math.cos(degree) * 0.3 - (movement)) , -0.3), 0.3) );
-                MotorC.setPower(Math.min(Math.max((Math.cos(degree) * 0.3 + (movement)) , -0.3), 0.3) );
-                MotorD.setPower(Math.min(Math.max((Math.sin(degree) * 0.3 - (movement)) , -0.3), 0.3) );
-
-
-
-                telemetry.addData("Turn done?",Math.abs(Turn - Turn_odo) < 3);
-                telemetry.addData("Position done?",Math.abs(Math.sqrt(Math.pow(y_positions - y_odo,2) + Math.pow(x_positions - x_odo,2))) < 100);
+            if (y_positions - y_odo >= 2000 || y_positions - y_odo <= -2000 || x_positions - x_odo >= 2000 || x_positions - x_odo <= -2000 || Math.abs(Turn - Turn_odo) >= 4) {
+                telemetry.addData("O","0");
                 telemetry.update();
-            }
-
-            else if (y_positions - y_odo >= 200 || y_positions - y_odo <= -200 || x_positions - x_odo >= 200 || x_positions - x_odo <= -200 || Math.abs(Turn - Turn_odo) >= 3) {
                 MotorA.setPower(Math.min(Math.max((Math.sin(degree) * Speed + (movement)) , -Speed), Speed) );
                 MotorB.setPower(Math.min(Math.max((Math.cos(degree) * Speed - (movement)) , -Speed), Speed) );
                 MotorC.setPower(Math.min(Math.max((Math.cos(degree) * Speed + (movement)) , -Speed), Speed) );
                 MotorD.setPower(Math.min(Math.max((Math.sin(degree) * Speed - (movement)) , -Speed), Speed) );
             }
+
+            else if (y_positions - y_odo >= 130 || y_positions - y_odo <= -130 || x_positions - x_odo >= 130 || x_positions - x_odo <= -130 || Math.abs(Turn - Turn_odo) >= 1) {
+                telemetry.addData("O","1");
+                telemetry.update();
+                MotorA.setPower(Math.min(Math.max((Math.sin(degree) * 0.2 + (movement)) , -0.2), 0.2) );
+                MotorB.setPower(Math.min(Math.max((Math.cos(degree) * 0.2 - (movement)) , -0.2), 0.2) );
+                MotorC.setPower(Math.min(Math.max((Math.cos(degree) * 0.2 + (movement)) , -0.2), 0.2) );
+                MotorD.setPower(Math.min(Math.max((Math.sin(degree) * 0.2 - (movement)) , -0.2), 0.2) );
+            }
+
+
             else {
                 MotorA.setPower(0);
                 MotorB.setPower(0);
@@ -205,10 +202,10 @@ public class backup2 extends LinearOpMode {
     }
 
     /**
-     * Describe this function...
+     * Convert cm to ticks
      */
     private double Connvert_ticks_2_centimeter(double ticks) {
-        return (ticks / 1248) * Math.PI * 4.8;
+        return (ticks * 1248) / Math.PI * 4.8;
     }
     private void initAprilTag() {
 
