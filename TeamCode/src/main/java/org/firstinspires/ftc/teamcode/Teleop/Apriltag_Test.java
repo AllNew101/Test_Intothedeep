@@ -32,6 +32,7 @@
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.Autonomous.backup2;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -107,6 +108,8 @@ public class Apriltag_Test extends LinearOpMode {
         MotorD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         if (opModeIsActive()) {
+            backup2 b = new backup2();
+            b.move2(0.6,0.01,0,0.25,0.2, 0.01, 0.3 ,0, 18000, 0, 0);;
             boolean a = true;
             while (opModeIsActive()) {
                 while(a == true) {
@@ -168,6 +171,7 @@ public class Apriltag_Test extends LinearOpMode {
                             MotorC.setPower(-0.2);
                             MotorD.setPower(0.2);
                             sleep(500);
+
 
                         }
                         if (detection.metadata != null) {

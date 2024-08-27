@@ -82,7 +82,7 @@ public class backup2 extends LinearOpMode {
     /**
      * Describe this function...
      */
-    private void move2(double Speed, double kp_Turn, double ki_Turn,  double kd_Turn, double kp_XY, double ki_XY,  double kd_XY, int y_positions, int x_positions, int Turn, int intake) {
+    public void move2(double Speed, double kp_Turn, double ki_Turn,  double kd_Turn, double kp_XY, double ki_XY,  double kd_XY, int y_positions, int x_positions, int Turn, int intake) {
         double movement;
         double error_sum;
         ElapsedTime myElapsedTime;
@@ -162,7 +162,6 @@ public class backup2 extends LinearOpMode {
                 MotorF.setPower(1);
             }
             if (y_positions - y_odo >= 2000 || y_positions - y_odo <= -2000 || x_positions - x_odo >= 2000 || x_positions - x_odo <= -2000 || Math.abs(Turn - Turn_odo) >= 4) {
-                telemetry.addData("O","0");
                 telemetry.update();
                 MotorA.setPower(Math.min(Math.max((Math.sin(degree) * Speed + (movement)) , -Speed), Speed) );
                 MotorB.setPower(Math.min(Math.max((Math.cos(degree) * Speed - (movement)) , -Speed), Speed) );
@@ -171,7 +170,6 @@ public class backup2 extends LinearOpMode {
             }
 
             else if (y_positions - y_odo >= 130 || y_positions - y_odo <= -130 || x_positions - x_odo >= 130 || x_positions - x_odo <= -130 || Math.abs(Turn - Turn_odo) >= 1) {
-                telemetry.addData("O","1");
                 telemetry.update();
                 MotorA.setPower(Math.min(Math.max((Math.sin(degree) * 0.2 + (movement)) , -0.2), 0.2) );
                 MotorB.setPower(Math.min(Math.max((Math.cos(degree) * 0.2 - (movement)) , -0.2), 0.2) );
