@@ -108,8 +108,7 @@ public class Apriltag_Test extends LinearOpMode {
         MotorD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         if (opModeIsActive()) {
-            backup2 b = new backup2();
-            b.move2(0.6,0.01,0,0.25,0.2, 0.01, 0.3 ,0, 18000, 0, 0);;
+
             boolean a = true;
             while (opModeIsActive()) {
                 while(a == true) {
