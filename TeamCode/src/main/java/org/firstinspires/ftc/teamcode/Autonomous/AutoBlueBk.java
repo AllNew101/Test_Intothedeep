@@ -81,6 +81,7 @@ public class AutoBlueBk extends LinearOpMode {
         MotorD.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         L1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         L2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         if (opModeIsActive()) {
             x_odo = 0;
             y_odo = 0;
@@ -88,7 +89,7 @@ public class AutoBlueBk extends LinearOpMode {
             C_odo = 0;
             D_odo = 0;
             Turn_odo = 0;
-//            move2(0.6,kd,kp,0,0,90);
+
 
             neep.setPosition(0);
 

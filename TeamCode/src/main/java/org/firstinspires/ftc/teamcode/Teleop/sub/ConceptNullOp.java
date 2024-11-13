@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.Teleop.sub;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /*
  * Demonstrates an empty iterative OpMode
  */
+@Disabled
 @TeleOp(name = "Concept: NullOp")
 
 public class ConceptNullOp extends OpMode {
