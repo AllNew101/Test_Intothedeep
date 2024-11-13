@@ -94,10 +94,10 @@ public class AutoBlueBk extends LinearOpMode {
 
 
 
-            move2(-0.4,0.4,0.4,-0.4,kd,kp,70.0,0);
+            move2(-0.4,0.4,0.4,-0.4,kd,kp,35.0,0);
             macrolang(1750);
 
-            move2(-0.6,-0.6,-0.6,-0.6,kd,kp,950.0,0);
+            move2(-0.6,-0.6,-0.6,-0.6,kd,kp,860.0,0);
             neep.setPosition(0.4);
             sleep(300);
             neep.setPosition(0.1);
@@ -133,7 +133,7 @@ public class AutoBlueBk extends LinearOpMode {
 
             move2(-0.6,-0.6,-0.6,-0.6,kd,kp,100.0,90);
             move2(0.6,-0.6,0.6,-0.6,kd,kp,200.0,45);
-            move2(-0.6,-0.6,-0.6,-0.6,kd,kp,450.0,45);
+            move2(-0.6,-0.6,-0.6,-0.6,kd,kp,520.0,45);
             neep.setPosition(0.4);
             sleep(900);
             neep.setPosition(0.1);
@@ -187,7 +187,7 @@ public class AutoBlueBk extends LinearOpMode {
             move2(-0.4,-0.4,-0.4,-0.4,kd,kp,450,112);
             macrolang(1700);
             move2(-0.6,-0.6,-0.6,-0.6,kd,kp,0,53);
-            move2(-0.6,-0.6,-0.6,-0.6,kd,kp,135.0,53);
+            move2(-0.6,-0.6,-0.6,-0.6,kd,kp,100.0,53);
             neep.setPosition(0.4);
             sleep(900);
             neep.setPosition(0.1);
@@ -276,8 +276,8 @@ public class AutoBlueBk extends LinearOpMode {
         myElapsedTime = new ElapsedTime();
         myElapsedTime.reset();
         while (myElapsedTime.seconds() < 10){
-            servo_wolfpack(0.44);
-            Wrist.setPosition(0.49);
+            servo_wolfpack(0.46);
+            Wrist.setPosition(0.44);
             if (L1.getCurrentPosition() < UP_Degree) {
                 L1.setPower(1);
                 L2.setPower(1);
